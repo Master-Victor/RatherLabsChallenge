@@ -1,11 +1,12 @@
-import { types, getSnapshot } from "mobx-state-tree"
-import { User, Todo } from './models/user'
+import { RootStore, IRootStore } from './models/Quiz'
 
-const RootStore = types.model({
-    users: types.map(User),
-    todos: types.optional(types.map(Todo), {})
-});
+let _StoreQuiz: IRootStore
 
-export const store = RootStore.create({
-    users: {} // users is required here because it's not marked as optional
-});
+export const useStoreQuiz = () => {
+    if( !_StoreQuiz )
+        _StoreQuiz = RootStore.create({
+            quiz: []
+        })
+
+    return _StoreQuiz
+}
