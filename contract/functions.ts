@@ -75,14 +75,15 @@ export const loadData = async () => {
 
 let contract;
 export const connectContract = async () => {
-  const Address = "0x2397F7Afb87178eef689e6374587ab5DbF9865cb";
+  const Address = "0x147e4F2Ff4e3618EdbfFec2B86988e583198383B";
   const ABI = Web3Conection;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   contract = new ethers.Contract( Address, ABI, signer );
   console.log(contract.address)
-  const number = await contract.submit(123,[123,123] );
-  console.log( number )
+//   const number = await contract.submit(123,[123,123] );
+//   console.log( number )
   const otroNumero = await contract.balanceOf('0x2eFDd91E84B9848FB746421aF763F4a795De0437')
-  console.log(otroNumero)
+  const hexString = otroNumero._hex.toString(16);
+  console.log(parseInt(hexString, 16))
 }
