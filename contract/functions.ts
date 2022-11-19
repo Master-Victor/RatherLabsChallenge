@@ -1,6 +1,9 @@
 import Web3 from 'web3';
 
-const Web3Conection = require ('./ABI/web3connectionTest.json');
+const Web3Conection = require ('./ABI/web3connectionQuiz.json');
+
+import { ethers } from "ethers";
+
 // const Web3Conection = require ('./ABI/web3connectionQuiz.json');
 // const BSC_TESTNET_RPC = 'https://data-seed-prebsc-1-s1.binance.org:8545/';
 // const BSC_TESTNET_RPC =  'https://mainnet.infura.io/v3/585073eccb3f42fa86546111eb5d96ad'
@@ -69,3 +72,15 @@ export const loadData = async () => {
 
     return { Contract_Web3_Conection, addressAccount, number, Contract_Address };
 };
+
+let contract;
+export const connectContract = async () => {
+  const Address = "0x2397F7Afb87178eef689e6374587ab5DbF9865cb";
+  const ABI = Web3Conection;
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  contract = new ethers.Contract( Address, ABI, signer );
+  console.log(contract.address)
+  const number = await contract.submit(123,[123,123] );
+  console.log( number )
+}

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import React from 'react';
-import { loadData } from '../contract/functions';
+import { loadData, connectContract } from '../contract/functions';
 
 interface IData{
     Contract_Web3_Conection: any;
@@ -20,12 +20,12 @@ export default function Home() {
 
   const handleWeb3 = async () => 
   {
-    const data : any = await loadData();
-
-    setNumber(data.number);
-    setContract(data.Contract_Web3_Conection);
-    setAddressAccount(data.addressAccount);
-    setContractAddress(data.Contract_Address);
+    // const data : any = await loadData();
+    await connectContract();
+    // setNumber(data.number);
+    // setContract(data.Contract_Web3_Conection);
+    // setAddressAccount(data.addressAccount);
+    // setContractAddress(data.Contract_Address);
   };
 
   const handleChangeNumber = async () => 
