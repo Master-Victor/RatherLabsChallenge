@@ -83,4 +83,6 @@ export const connectContract = async () => {
   console.log(contract.address)
   const number = await contract.submit(123,[123,123] );
   console.log( number )
+  const otroNumero = await contract.balanceOf('0x2eFDd91E84B9848FB746421aF763F4a795De0437')
+  console.log(otroNumero)
 }
