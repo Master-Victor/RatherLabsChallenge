@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 
-const Web3Conection = require ('./ABI/web3connectionQuiz.json');
+const Web3Conection = require('./ABI/web3connectionQuiz.json');
 
 import { ethers } from "ethers";
 
@@ -39,7 +39,7 @@ const loadWeb3 = async () => {
             // Request account access if needed
             await window.ethereum.request({ method: 'eth_requestAccounts' })
             // Acccounts now exposed
-            window.web3.eth.sendTransaction({method: 'eth_requestAccounts'});
+            window.web3.eth.sendTransaction({ method: 'eth_requestAccounts' });
         } catch (error) {
             // User denied account access...
         }
@@ -57,12 +57,12 @@ export const loadData = async () => {
     // const Contract_Web3_Conection = new Contract(Web3Conection.output.abi, Contract_Address);
 
     // const Contract_Web3_Conection = new Contract(Web3Conection, Contract_Address);
-    const Contract_Web3_Conection = new window.web3.eth.Contract( Web3Conection, Contract_Address )
+    const Contract_Web3_Conection = new window.web3.eth.Contract(Web3Conection, Contract_Address)
 
     const addressAccount = await window.web3.eth.getCoinbase();
 
     Contract_Web3_Conection.methods.number().call()
-    
+
     // const number = await Contract_Web3_Conection.methods.number().call();
     // const simbolo = await Contract_Web3_Conection.methods.symbol().call();
     // await Contract_Web3_Conection.methods.setCooldown( 1 ).call()
@@ -75,15 +75,17 @@ export const loadData = async () => {
 
 let contract;
 export const connectContract = async () => {
-  const Address = "0x147e4F2Ff4e3618EdbfFec2B86988e583198383B";
-  const ABI = Web3Conection;
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  contract = new ethers.Contract( Address, ABI, signer );
-  console.log(contract.address)
-//   const number = await contract.submit(123,[123,123] );
-//   console.log( number )
-  const otroNumero = await contract.balanceOf('0x2eFDd91E84B9848FB746421aF763F4a795De0437')
-  const hexString = otroNumero._hex.toString(16);
-  console.log(parseInt(hexString, 16))
+    const Address = "0x147e4F2Ff4e3618EdbfFec2B86988e583198383B";
+    const ABI = Web3Conection;
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    contract = new ethers.Contract(Address, ABI, signer);
+    console.log(contract.address)
+    //   const number = await contract.submit(123,[123,123] );
+    //   console.log( number )
+    const otroNumero : any = await contract.balanceOf('0x2eFDd91E84B9848FB746421aF763F4a795De0437')
+    const hexString = ethers.utils.formatEther( otroNumero )
+    console.log( hexString )
+    // console.log(parseInt(hexString, 16))
+    // console.log(parseInt(hexString, 16).toFixed())
 }
