@@ -89,3 +89,15 @@ export const connectContract = async () => {
     // console.log(parseInt(hexString, 16))
     // console.log(parseInt(hexString, 16).toFixed())
 }
+
+export const quizContract = async () => {
+    const Address = "0x147e4F2Ff4e3618EdbfFec2B86988e583198383B";
+    const ABI = Web3Conection;
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    contract = new ethers.Contract(Address, ABI, signer);
+    const otroNumero : any = await contract.balanceOf('0x2eFDd91E84B9848FB746421aF763F4a795De0437')
+    const hexString = ethers.utils.formatEther( otroNumero )
+    console.log( hexString )
+    return parseInt(hexString);
+}
