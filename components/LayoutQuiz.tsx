@@ -7,16 +7,7 @@ import { quizContract } from '../contract/functions';
 const { Header, Footer, Content } = Layout;
 
 const LayoutQuiz = ({ children }: any) => {
-    const [countDown, setCountDown] = useState<number>(20);
     const [ quizCoin, setQuizCoin ] = useState<number>(0)
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if( countDown >= 0 ) setCountDown(countDown - 1);
-            else console.log('redireccionar')
-        }, 1000);
-    
-        return () => clearInterval(interval);
-      }, [countDown, setCountDown]);
 
     const router = useRouter()
 
@@ -32,7 +23,6 @@ const LayoutQuiz = ({ children }: any) => {
                     <Header style={{ backgroundColor: '#EEE' }}>
                            <Row>
                                 <Col span={12}>Wallet: {`${router.query.wallet}`}</Col> 
-                                <Col span={12}><Slider style={{ paddingTop: '20px' }} min={0} max={10} step={0.01} value={ countDown }/></Col> 
                             </Row>
                     </Header>
                     <Content>{children}</Content>
