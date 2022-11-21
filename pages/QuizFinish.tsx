@@ -14,7 +14,7 @@ const QuizFinish = () => {
         if( coin === user.coin ) coinScanner()
         else {
             user.setCoin(coin)
-            router.push('QuizHome')
+            router.push('/')
         }
         console.log(coin)
     }
