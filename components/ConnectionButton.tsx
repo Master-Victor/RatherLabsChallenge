@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-
+import { useStoreUser } from '../store/store'
 declare global {
     interface Window {
         ethereum: any
@@ -11,12 +11,13 @@ declare global {
 const ConnectionButton = ( { children } : any) => {
     const [buttonText, setButtonText] = useState(children)
     const router = useRouter()
-
+  const user = useStoreUser()
     const connectarWallet = () => {
         if (window.ethereum && window.ethereum.isMetaMask) {
             window.ethereum.request({ method: 'eth_requestAccounts' })
                 .then((result: string[]) => {
                     console.log(result[0])
+                    user.setWallet(result[0])
                     if( !(window.ethereum.chainId === '0x5') ) 
                         switchChain(result[0])
                     else

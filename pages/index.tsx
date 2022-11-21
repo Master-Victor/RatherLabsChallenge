@@ -2,8 +2,20 @@ import { Button } from 'antd/lib/radio'
 import Head from 'next/head'
 import Login from '../components/Login'
 import { Row, Col } from 'antd'
+import { useEffect } from 'react'
+import { useStoreQuiz, useStoreUser } from '../store/store'
+import { getSnapshot } from 'mobx-state-tree'
 
 export default function Home() {
+  const quizStore = useStoreQuiz()
+  useEffect(() => {
+    const get = async () => {
+        const res = await fetch(`http://localhost:3000/api/quizs`)
+        const quizs = await res.json()
+        quizStore.setQuizs(quizs)
+    }
+    get()
+}, [])
   return (
     <div>
       <Head>
