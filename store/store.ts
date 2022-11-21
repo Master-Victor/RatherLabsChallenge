@@ -17,6 +17,7 @@ export const useStoreUser = () => {
     if( !(_StoreUser) )
         _StoreUser = User.create({
             wallet: '',
+            coin: 0,
             respuestas: []
         })
     return _StoreUser
