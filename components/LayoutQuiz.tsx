@@ -11,7 +11,7 @@ const LayoutQuiz = ({ children }: any) => {
     // const router = useRouter()
 
     useEffect( () => {
-        const coin = async() => setQuizCoin(await quizContract()) 
+        const coin = async() => user.setCoin(await quizContract(user.wallet)) 
         coin()
       }, []);
 
@@ -26,7 +26,7 @@ const LayoutQuiz = ({ children }: any) => {
                     </Header>
                     <Content>{children}</Content>
                     <Footer>
-                        <Row justify={'end'} > { quizCoin } $QUIZ </Row>
+                        <Row justify={'end'} > { user.coin } $QUIZ </Row>
                     </Footer>
                 </Layout>
             </Col>
