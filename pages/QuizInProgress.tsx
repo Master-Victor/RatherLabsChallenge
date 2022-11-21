@@ -40,7 +40,7 @@ const QuizInProgress = () => {
             setRespuesta(respuestas.concat([option]))
             if(redirect === true) {
                 console.log(respuestas)
-                router.push('/QuizFinish')
+                router.push({pathname:'/QuizFinish', query: { indice: router.query.indice }})
             }else {
                 userStore.setRespuestas(option)
                 setRedirect(true)
