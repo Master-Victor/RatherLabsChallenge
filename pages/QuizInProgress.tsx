@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import LayoutQuiz from '../components/LayoutQuiz'
 import { Card, Slider } from 'antd'
-import { useStoreQuiz } from '../store/store';
+import { useStoreQuiz, useStoreUser } from '../store/store';
 import { getSnapshot } from 'mobx-state-tree';
 import { useRouter } from 'next/router';
-// import Timer from '../components/Timer'
-
 const gridStyle: React.CSSProperties = {
     textAlign: 'center',
     cursor: 'pointer',
@@ -13,29 +11,42 @@ const gridStyle: React.CSSProperties = {
 
 const QuizInProgress = () => {
     const router = useRouter()
-    const quizStore = useStoreQuiz();
+    const quizStore = useStoreQuiz()
+    const userStore = useStoreUser()
     const quizs = getSnapshot(quizStore.quiz)
     const [indiceOptions, setIndiceOptions] = useState<number>(0)
     const preguntas = quizs.map(q => q.questions)
     const indice = parseInt(router.query.indice as string)
-
-    const [countDown, setCountDown] = useState<number>( preguntas[indice][indiceOptions].lifetimeSeconds );
-
+    const [ respuestas, setRespuesta ] = useState<number[]>([])
+    const [countDown, setCountDown] = useState<number>( preguntas[indice][indiceOptions].lifetimeSeconds )
+    const [ redirect, setRedirect ] = useState<boolean>(false)
     useEffect(() => {
         const interval = setInterval(() => {
             if (countDown >= 0) setCountDown(countDown - 0.1);
-            else console.log('redireccionar')
+            else nextQuestions(-1)
         }, 100);
         return () => clearInterval(interval);
     }, [countDown, setCountDown]);
 
     useEffect(() => setCountDown(preguntas[indice][indiceOptions].lifetimeSeconds), [indiceOptions])
 
-    const nextQuestions = () => {
-        if ((preguntas[indice].length - 1) > indiceOptions)
+    const nextQuestions = ( option : number ) => {
+        if ((preguntas[indice].length - 1) > indiceOptions){
             setIndiceOptions(indiceOptions + 1)
-        else
-            console.log('submit')
+            setRespuesta(respuestas.concat([option]))
+            userStore.setRespuestas(option)
+        }
+        else{
+            setRespuesta(respuestas.concat([option]))
+            if(redirect === true) {
+                console.log(respuestas)
+                router.push('/QuizFinish')
+            }else {
+                userStore.setRespuestas(option)
+                setRedirect(true)
+                setCountDown(0)
+            }
+        }            
     }
 
     return (
@@ -56,7 +67,7 @@ const QuizInProgress = () => {
                 >
                     {
                         preguntas[indice][indiceOptions].options.map((options, i) =>
-                            <Card.Grid onClick={nextQuestions} key={i} style={gridStyle}>
+                            <Card.Grid onClick={() => nextQuestions(i)} key={i} style={gridStyle}>
                                 {options.text}
                             </Card.Grid>
                         )

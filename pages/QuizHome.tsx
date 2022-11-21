@@ -14,18 +14,8 @@ const gridStyle: React.CSSProperties = {
 
 const QuizHome = () => {
 
-    useLayoutEffect(() => {
-        const get = async () => {
-            const res = await fetch(`http://localhost:3000/api/quizs`)
-            const quizs = await res.json()
-            const quizStore = useStoreQuiz();
-            quizStore.setQuizs(quizs)
-        }
-        get()
-    }, [])
-
     const router = useRouter()
-    const quizStore = useStoreQuiz();
+    const quizStore = useStoreQuiz()
     const quizs = getSnapshot(quizStore.quiz)
 
     const redirect = (i : number) => router.push({ pathname: 'QuizInProgress', query: { indice: i.toString()} })

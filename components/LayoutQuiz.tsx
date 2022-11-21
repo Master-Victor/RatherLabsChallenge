@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import { Layout, Row, Col, Input, Slider, Button } from 'antd';
 import { useRouter } from 'next/router';
-import { useCountdown } from './CustomHooks/useCountdown '
 import { quizContract } from '../contract/functions';
-
+import { useStoreUser } from '../store/store'
 const { Header, Footer, Content } = Layout;
 
 const LayoutQuiz = ({ children }: any) => {
     const [ quizCoin, setQuizCoin ] = useState<number>(0)
-
-    const router = useRouter()
+    const user = useStoreUser()
+    // const router = useRouter()
 
     useEffect( () => {
         const coin = async() => setQuizCoin(await quizContract()) 
@@ -22,7 +21,7 @@ const LayoutQuiz = ({ children }: any) => {
                 <Layout style={{ minWidth: '80vw', minHeight: '80vh' }}>
                     <Header style={{ backgroundColor: '#EEE' }}>
                            <Row>
-                                <Col span={12}>Wallet: {`${router.query.wallet}`}</Col> 
+                                <Col>Wallet: {`${user.wallet}`}</Col> 
                             </Row>
                     </Header>
                     <Content>{children}</Content>
