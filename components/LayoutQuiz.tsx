@@ -72,8 +72,8 @@ const LayoutQuiz = ({ children }: any) => {
                     <Layout style={{ minWidth: '80vw', minHeight: '80vh' }}>
                         <Header style={{ backgroundColor: '#EEE' }}>
                             <Row>
-                                <Col span={12}>Wallet: {`${user.wallet}`}</Col>
-                                <Col span={12} style={{ paddingLeft: "20vw" }} >
+                                <Col span={16} style={{ whiteSpace: 'nowrap',textOverflow: 'ellipsis',overflow: 'hidden' }}>Wallet: {`${user.wallet}`}</Col>
+                                <Col span={8} style={{ paddingLeft: "20vw" }} >
                                     {
                                         switched
                                             ? <CheckOutlined />
