@@ -57,10 +57,10 @@ const dataMock = {
  ]
 }
 
+//la idea es que en un futuro se pueda obtener de una base de datos la encuesta
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Quiz>
 ) {
-  // res.status(200).json( dataMock )
   res.status(200).json( dataMock )
 }
