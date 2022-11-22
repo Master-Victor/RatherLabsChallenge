@@ -1,4 +1,4 @@
-import { types, Instance } from "mobx-state-tree";
+import { types, Instance } from "mobx-state-tree"
 
 export const User = types.model({
     wallet: types.optional(types.string, ""),
