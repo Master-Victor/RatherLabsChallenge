@@ -10,7 +10,6 @@ export const submitContract = async (quizID:number, respuestas: number[]) => {
     contract = new ethers.Contract(Address, ABI, signer)
     try {
         const { hash } = await contract.submit( quizID,respuestas )
-        // console.log('algo', hash )
         return hash
     } catch (error) {
         console.log(error)

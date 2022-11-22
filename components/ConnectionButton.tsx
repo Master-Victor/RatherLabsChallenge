@@ -20,12 +20,14 @@ const ConnectionButton = ({ children }: any) => {
         .then((result: string[]) => {
           user.setWallet(result[0])
           quizContract(result[0])
-            .then( coin => user.setCoin(coin) )
+            .then( coin => {
+              user.setCoin(coin)
+              router.push('/QuizHome')
+            } )
             .catch( (e : any) => console.log(e) )
-          if (!(window.ethereum.chainId === '0x5'))
-            switchChain(result[0])
-          else
-            router.push('/QuizHome')
+          // if (!(window.ethereum.chainId === '0x5'))
+          //   switchChain(result[0])
+          // else
         })
         .catch((error: string) => setButtonText(error))
     }

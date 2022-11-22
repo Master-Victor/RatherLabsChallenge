@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import LayoutQuiz from '../components/LayoutQuiz'
 import { Card } from 'antd'
 import { useStoreQuiz } from '../store/store'
 import { getSnapshot } from 'mobx-state-tree'
-import Image from 'next/image'
-const { Meta } = Card
+import Redirect from '../components/Redirect'
 
 const gridStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -18,13 +17,12 @@ const QuizHome = () => {
     const router = useRouter()
     const quizStore = useStoreQuiz()
     const quizs = getSnapshot(quizStore.quiz)
-
     const redirect = (i: number) => router.push({ pathname: 'QuizInProgress', query: { indice: i.toString() } })
 
-    return (
+    return !(quizs.length === 0) ? (
         <LayoutQuiz>
             <div style={{ paddingLeft: '30vw', paddingTop: '10vh' }}>
-                <Card bordered={true} title={quizs[0].title} style={{ width: '20vw', height: '30vh' }} headStyle={{ backgroundColor: '#8292b3' }}
+                <Card bordered={true} title={quizs[0].title} style={{ width: '20vw', minHeight: '200px' }} headStyle={{ backgroundColor: '#8292b3' }}
                     cover={
                         <img
                             alt="example"
@@ -44,6 +42,7 @@ const QuizHome = () => {
             </div>
         </LayoutQuiz >
     )
+    : <Redirect to = "/" />
 }
 
 export default QuizHome

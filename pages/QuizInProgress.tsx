@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import LayoutQuiz from '../components/LayoutQuiz'
 import { Card, Slider } from 'antd'
-import { useStoreQuiz, useStoreUser } from '../store/store';
-import { getSnapshot } from 'mobx-state-tree';
-import { useRouter } from 'next/router';
+import { useStoreQuiz, useStoreUser } from '../store/store'
+import { getSnapshot } from 'mobx-state-tree'
+import { useRouter } from 'next/router'
+import Redirect from '../components/Redirect'
+
 const gridStyle: React.CSSProperties = {
     textAlign: 'center',
     cursor: 'pointer',
@@ -20,10 +22,11 @@ const QuizInProgress = () => {
     const [ respuestas, setRespuesta ] = useState<number[]>([])
     const [countDown, setCountDown] = useState<number>( preguntas[indice][indiceOptions].lifetimeSeconds )
     const [ redirect, setRedirect ] = useState<boolean>(false)
+    
     useEffect(() => {
         const interval = setInterval(() => {
             if (countDown >= 0) setCountDown(countDown - 0.1);
-            else nextQuestions(-1)
+            else nextQuestions(100000)
         }, 100);
         return () => clearInterval(interval);
     }, [countDown, setCountDown]);
@@ -49,19 +52,20 @@ const QuizInProgress = () => {
         }            
     }
 
-    return (
+    return !(quizs.length === 0) ? (
         <LayoutQuiz>
         <Slider style={{ paddingTop: '20px'  }} min={0} max={preguntas[indice][indiceOptions].lifetimeSeconds} step={0.01} value={countDown} />
             <div style={{ paddingLeft: '25vw', paddingTop: '5vh' }}>
                 <Card
                     bordered={true}
                     headStyle={{ backgroundColor: '#8292b3' }}
-                    style={{ maxWidth: '30vw', maxHeight: '30vh' }}
+                    style={{ maxWidth: '30vw', maxHeight: '50vh' }}
                     title={preguntas[indice][indiceOptions].text}
                     cover={
                         <img
                             alt="example"
                             src={preguntas[indice][indiceOptions].image}
+                            style={{width: '20vw', paddingLeft: '10vw'}}
                         />
                     }
                 >
@@ -76,6 +80,7 @@ const QuizInProgress = () => {
             </div>
         </LayoutQuiz>
     )
+    : <Redirect to = {'/'}/>
 }
 
 export default QuizInProgress
