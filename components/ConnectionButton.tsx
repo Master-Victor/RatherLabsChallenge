@@ -5,6 +5,7 @@ import { useStoreUser } from '../store/store'
 import { quizContract } from '../contract/functions'
 
 const ConnectionButton = ({ children }: any) => {
+  
   const [buttonText, setButtonText] = useState(children)
   const router = useRouter()
   const user = useStoreUser()

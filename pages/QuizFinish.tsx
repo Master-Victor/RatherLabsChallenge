@@ -20,8 +20,8 @@ const QuizFinish = () => {
           description:
             'Para poder enviar las respuestas es necesario cambiar de red.',
           icon: <FrownOutlined style={{ color: '#eb3434' }} />,
-        });
-      };
+        })
+      }
 
     const coinScanner = async () => {
         const coin = await quizContract(user.wallet)
@@ -33,6 +33,7 @@ const QuizFinish = () => {
             router.push('/QuizHome')
         }
     }
+    
     const submit = async (e: any) => {
         if( window.ethereum.chainId === '0x5' ){
             e.preventDefault()

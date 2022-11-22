@@ -1,5 +1,5 @@
-const Web3Conection = require('./ABI/web3connectionQuiz.json');
-import { ethers } from "ethers";
+const Web3Conection = require('./ABI/web3connectionQuiz.json')
+import { ethers } from "ethers"
 
 let contract
 export const submitContract = async (quizID:number, respuestas: number[]) => {
@@ -31,10 +31,10 @@ export function checkTransactionconfirmation(txhash : string) {
 
     let checkTransactionLoop = () => {
       return window.ethereum.request({method:'eth_getTransactionReceipt',params:[txhash]}).then((r : any) => {
-        if(r !=null) return 'confirmed';
-        else return checkTransactionLoop();
-      });
-    };
+        if(r !=null) return 'confirmed'
+        else return checkTransactionLoop()
+      })
+    }
   
-    return checkTransactionLoop();
+    return checkTransactionLoop()
   }

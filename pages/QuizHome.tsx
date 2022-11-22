@@ -17,7 +17,7 @@ const QuizHome = () => {
     const router = useRouter()
     const quizStore = useStoreQuiz()
     const quizs = getSnapshot(quizStore.quiz)
-    const redirect = (i: number) => router.push({ pathname: 'QuizInProgress', query: { indice: i.toString() } })
+    const redirect = (i: number) => router.push({ pathname: '/QuizInProgress', query: { indice: i.toString() } })
 
     return !(quizs.length === 0) ? (
         <LayoutQuiz>

@@ -1,13 +1,14 @@
-import { Button } from 'antd/lib/radio'
 import Head from 'next/head'
 import Login from '../components/Login'
 import { Row, Col } from 'antd'
 import { useEffect } from 'react'
-import { useStoreQuiz, useStoreUser } from '../store/store'
-import { getSnapshot } from 'mobx-state-tree'
+import { useStoreQuiz } from '../store/store'
+
 
 export default function Home() {
+  
   const quizStore = useStoreQuiz()
+
   useEffect(() => {
     const get = async () => {
         const res = await fetch(`${window.location.origin}/api/quizs`)
@@ -16,6 +17,7 @@ export default function Home() {
     }
     get()
 }, [])
+
   return (
     <div>
       <Head>

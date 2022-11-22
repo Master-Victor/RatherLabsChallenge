@@ -1,5 +1,5 @@
-import { types, getSnapshot, Instance, cast } from "mobx-state-tree";
-import { Question } from './Question';
+import { types, getSnapshot, Instance, cast } from "mobx-state-tree"
+import { Question } from './Question'
 
 export interface IQuiz extends Instance< typeof Quiz > {}
 export interface IQuestion extends Instance <typeof Question> {}
@@ -12,7 +12,7 @@ const Quiz = types.model({
 })
 
 export const RootStore = types.model({
-    quiz: types.array(Quiz),
+    quiz: types.array(Quiz),            //se deja asi para que sea mas facil agregar en un futuro mas de una quiz diaria
 }).actions( store => ({
     setQuizs( newQuiz: IQuiz ){
         store.quiz.push( newQuiz )
@@ -21,7 +21,3 @@ export const RootStore = types.model({
         return store.quiz.map( q => q.questions )
     }
 }) )
-
-// export const store = RootStore.create({
-//     Quiz: {} // users is required here because it's not marked as optional
-// });

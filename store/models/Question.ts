@@ -1,5 +1,5 @@
-import { types, getSnapshot } from "mobx-state-tree";
-import { QuestionOptions } from './QuestionOptions';
+import { types, getSnapshot } from "mobx-state-tree"
+import { QuestionOptions } from './QuestionOptions'
 
 export const Question = types.model({
     text : types.optional( types.string, "" ),
