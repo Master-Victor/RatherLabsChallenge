@@ -15,7 +15,7 @@ export const User = types.model({
         store.coin = coin
     },
     resetRespuestas(){
-        store.respuestas.slice(0)
+        store.respuestas.length = 0
     }
 
 }) )

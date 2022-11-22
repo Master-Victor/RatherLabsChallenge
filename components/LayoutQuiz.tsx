@@ -57,7 +57,6 @@ const LayoutQuiz = ({ children }: any) => {
             try {
                 setCoin(await quizContract(user.wallet))
                 setSwitched(true)
-                console.log(coin)                
                 if( coin === -1 ) setSwitched(false)
             } catch (error) {
                 console.log(error)
