@@ -38,3 +38,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 [goerli faucet](https://goerlifaucet.com/) To purchase ETHgoerli I recommend https://goerlifaucet.com/
 
 Contract : 0x147e4F2Ff4e3618EdbfFec2B86988e583198383B
+
+## Docs
+
+https://docs.metamask.io/guide/
+https://ant.design/components/overview/
+https://docs.ethers.io/v5/
+https://nextjs.org/docs
+https://mobx-state-tree.js.org/intro/welcome
+https://www.typescriptlang.org/docs/
