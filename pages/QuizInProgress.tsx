@@ -25,9 +25,9 @@ const QuizInProgress = () => {
     
     useEffect(() => {
         const interval = setInterval(() => {
-            if (countDown >= 0) setCountDown(countDown - 0.1);
+            if (countDown >= 0) setCountDown(countDown - 1);
             else nextQuestions(100000)
-        }, 100);
+        }, 1000);
         return () => clearInterval(interval);
     }, [countDown, setCountDown]);
 
