@@ -3,9 +3,10 @@ import { Layout, Row, Col, Input, Slider, Button, Spin } from 'antd';
 import { quizContract } from '../contract/functions';
 import { useStoreUser } from '../store/store'
 import { CheckOutlined } from '@ant-design/icons'
-
 const { Header, Footer, Content } = Layout;
+
 const LayoutQuiz = ({ children }: any) => {
+
     const user = useStoreUser()
     const [switched, setSwitched] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
@@ -56,7 +57,6 @@ const LayoutQuiz = ({ children }: any) => {
             try {
                 setCoin(await quizContract(user.wallet))
                 setSwitched(true)
-                console.log(coin)                
                 if( coin === -1 ) setSwitched(false)
             } catch (error) {
                 console.log(error)
@@ -72,8 +72,8 @@ const LayoutQuiz = ({ children }: any) => {
                     <Layout style={{ minWidth: '80vw', minHeight: '80vh' }}>
                         <Header style={{ backgroundColor: '#EEE' }}>
                             <Row>
-                                <Col span={12}>Wallet: {`${user.wallet}`}</Col>
-                                <Col span={12} style={{ paddingLeft: "20vw" }} >
+                                <Col span={14} style={{ whiteSpace: 'nowrap',textOverflow: 'ellipsis',overflow: 'hidden' }}>Wallet: {`${user.wallet}`}</Col>
+                                <Col span={10} style={{ paddingLeft: "20vw" }} >
                                     {
                                         switched
                                             ? <CheckOutlined />

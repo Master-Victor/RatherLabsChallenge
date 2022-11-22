@@ -6,24 +6,31 @@ import { Button, Card, Spin, notification  } from 'antd'
 import { submitContract, checkTransactionconfirmation, quizContract } from '../contract/functions'
 import { useRouter } from 'next/router'
 import Redirect from '../components/Redirect'
-import { FrownOutlined } from '@ant-design/icons';
+import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 
 const QuizFinish = () => {
     const user = useStoreUser()
     const router = useRouter()
     const [ loading, setLoading ] = useState<boolean>(false)
-    const [ error, setError ] = useState<boolean>(false)
     const [api, contextHolder] = notification.useNotification()
 
-    const openNotification = () => {
+    const openNotificationError = () => {
         api.open({
           message: 'Error de Red',
           description:
             'Para poder enviar las respuestas es necesario cambiar de red.',
           icon: <FrownOutlined style={{ color: '#eb3434' }} />,
-        });
-      };
+        })
+      }
 
+      const openNotificationSuccess = () => {
+        api.open({
+          message: 'Enviado!',
+          description:
+            'Se pudo enviar correctamente las respuestas, por favor espere mientras se verifica la transaccion.',
+          icon: <SmileOutlined style={{ color: '#32a852' }} />,
+        })
+      }
     const coinScanner = async () => {
         const coin = await quizContract(user.wallet)
         if (coin === user.coin) coinScanner()
@@ -33,30 +40,29 @@ const QuizFinish = () => {
             router.push('/QuizHome')
         }
     }
+    
     const submit = async (e: any) => {
         if( window.ethereum.chainId === '0x5' ){
             e.preventDefault()
             try {
                 setLoading(true)
                 const hash = await submitContract(Number(router.query.indice), getSnapshot(user.respuestas))
+                openNotificationSuccess()
                 checkTransactionconfirmation(hash).then(async (r: any) => {
                     await coinScanner()
                     user.resetRespuestas()
                 })
-                setLoading(false)
-                user.resetRespuestas()
             } catch (error) {
                 console.log(error)
                 setLoading(false)
             }
         }else{
-            openNotification()
+            openNotificationError()
             setLoading(false)
         }
-        setLoading(false)
     }
 
-    return !(user.respuestas.length === 0) ? (
+    return !(user.wallet === '') ? (
         <Spin spinning={loading} size={'large'}>
                   {contextHolder}
             <LayoutQuiz>
