@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useStoreUser } from '../store/store'
@@ -13,62 +13,34 @@ const ConnectionButton = ({ children }: any) => {
   const [buttonText, setButtonText] = useState(children)
   const router = useRouter()
   const user = useStoreUser()
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const connectarWallet = async() => {
+  const connectarWallet = async () => {
+    setLoading(true)
     if (window.ethereum && window.ethereum.isMetaMask) {
       window.ethereum.request({ method: 'eth_requestAccounts' })
-        .then((result: string[]) => {
+        .then(async (result: string[]) => {
           user.setWallet(result[0])
-          quizContract(result[0])
-            .then( coin => {
-              user.setCoin(coin)
-              router.push('/QuizHome')
-            } )
-            .catch( (e : any) => console.log(e) )
-          // if (!(window.ethereum.chainId === '0x5'))
-          //   switchChain(result[0])
-          // else
-        })
-        .catch((error: string) => setButtonText(error))
-    }
-  }
-
-  const switchChain = async (wallet: string) => {
-    try {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x5' }],
-      });
-      router.push('/QuizHome')
-    } catch (switchError: any) {
-      // This error code indicates that the chain has not been added to MetaMask.
-      if (switchError.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: '0x5',
-                chainName: 'Görli',
-                rpcUrls: ['https://www.ethercluster.com/goerli'],
-              },
-            ],
-          })
+          if (window.ethereum.chainId === '0x5') {
+            const coin = await quizContract(result[0])
+            user.setCoin(coin)
+          }
           router.push('/QuizHome')
-        } catch (addError) {
-          // handle "add" error
-        }
-      }
-      // handle other "switch" errors
+          setLoading(false)
+        })
+        .catch((error: string) => {
+          setLoading(false)
+          setButtonText(error)
+        })
     }
   }
 
 
 
   return (
-    <>
+    <Spin spinning={loading} size={'large'}>
       <Button onClick={connectarWallet} > {buttonText} </Button>
-    </>
+    </Spin>
   )
 }
 
