@@ -36,3 +36,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 [Remix IDE online](https://remix.ethereum.org/) The Survey.sol contract was used for the deployment, which was carried out using the IDE instead of hardhat.
 
 [goerli faucet](https://goerlifaucet.com/) To purchase ETHgoerli I recommend https://goerlifaucet.com/
+
+Contract : 0x147e4F2Ff4e3618EdbfFec2B86988e583198383B

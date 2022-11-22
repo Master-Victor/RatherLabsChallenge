@@ -14,6 +14,7 @@
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
     "antd": "^4.24.3",
+    "dotenv": "^16.0.3",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
     "ethers": "^5.7.2",
