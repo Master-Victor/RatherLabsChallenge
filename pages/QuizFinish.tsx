@@ -1,50 +1,57 @@
 import { getSnapshot } from 'mobx-state-tree'
-import React from 'react'
+import React, { useState } from 'react'
 import { useStoreUser } from '../store/store'
 import LayoutQuiz from '../components/LayoutQuiz'
-import { Button, Card } from 'antd'
+import { Button, Card, Spin } from 'antd'
 import { submitContract, checkTransactionconfirmation, quizContract } from '../contract/functions'
 import { useRouter } from 'next/router'
+import Redirect from '../components/Redirect'
 
 const QuizFinish = () => {
     const user = useStoreUser()
     const router = useRouter()
-    const coinScanner = async() => {
+    const [ loading, setLoading ] = useState<boolean>(false)
+
+    const coinScanner = async () => {
         const coin = await quizContract(user.wallet)
-        if( coin === user.coin ) coinScanner()
+        if (coin === user.coin) coinScanner()
         else {
             user.setCoin(coin)
-            router.push('QuizHome')
+            user.resetRespuestas()
+            router.push('/QuizHome')
         }
-        console.log(coin)
     }
-    const submit = async(e : any) => {
+    const submit = async (e: any) => {
         e.preventDefault()
         try {
+            setLoading(true)
             const hash = await submitContract(Number(router.query.indice), getSnapshot(user.respuestas))
-            checkTransactionconfirmation(hash).then( async(r : any ) => {
+            checkTransactionconfirmation(hash).then(async (r: any) => {
                 await coinScanner()
-                console.log(r)
             })
         } catch (error) {
             console.log(error)
+            setLoading(false)
         }
     }
 
-    return (
-        <LayoutQuiz>
-            <div style={{ paddingLeft: '25vw', paddingTop: '5vh' }} >
-                <Card title={'Respuestas'}
-                    headStyle={{ backgroundColor: '#8292b3' }}
-                    style={{ maxWidth: '30vw', maxHeight: '50vh' }}>
+    return !(user.respuestas.length === 0) ? (
+        <Spin spinning={loading} size={'large'}>
+            <LayoutQuiz>
+                <div style={{ paddingLeft: '20vw', paddingTop: '5vh' }} >
+                    <Card title={'Respuestas'}
+                        headStyle={{ backgroundColor: '#8292b3' }}
+                        style={{ minWidth: '35vw', maxHeight: '50vh', maxWidth: '40vw' }}>
                         {
-                            getSnapshot(user.respuestas).map( (r, i) => <p key={i}>Respuesta {i + 1}: opcion {r}</p> )
+                            getSnapshot(user.respuestas).map((r, i) => <p key={i}>Respuesta {i + 1}: {r === 100000 ? 'Sin seleccionar' : r}</p>)
                         }
-                </Card>
-                <Button onClick={ submit }>Enviar</Button>
-            </div>
-        </LayoutQuiz>
+                    </Card>
+                    <Button onClick={submit}>Enviar</Button>
+                </div>
+            </LayoutQuiz>
+        </Spin>
     )
+        : <Redirect to={'/'} />
 }
 
 export default QuizFinish

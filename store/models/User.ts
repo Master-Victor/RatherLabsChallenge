@@ -13,7 +13,11 @@ export const User = types.model({
     },
     setCoin( coin : number ){
         store.coin = coin
+    },
+    resetRespuestas(){
+        store.respuestas.slice(0)
     }
+
 }) )
 
 export interface IUserStore extends Instance<typeof User> {}

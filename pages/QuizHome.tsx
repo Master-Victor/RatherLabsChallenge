@@ -1,44 +1,48 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import LayoutQuiz from '../components/LayoutQuiz'
-import { Layout, Row, Col, Input, Slider, Button, Card } from 'antd';
-const { Header, Footer, Content } = Layout;
+import { Card } from 'antd'
 import { useStoreQuiz } from '../store/store'
-import { getSnapshot } from 'mobx-state-tree';
-import Image from 'next/image'
+import { getSnapshot } from 'mobx-state-tree'
+import Redirect from '../components/Redirect'
 
 const gridStyle: React.CSSProperties = {
     textAlign: 'center',
-    cursor: 'pointer'
-};
+    cursor: 'pointer',
+    width: '100%',
+}
 
 const QuizHome = () => {
 
     const router = useRouter()
     const quizStore = useStoreQuiz()
     const quizs = getSnapshot(quizStore.quiz)
+    const redirect = (i: number) => router.push({ pathname: 'QuizInProgress', query: { indice: i.toString() } })
 
-    const redirect = (i : number) => router.push({ pathname: 'QuizInProgress', query: { indice: i.toString()} })
-
-    return (
+    return !(quizs.length === 0) ? (
         <LayoutQuiz>
-            <div style={{ paddingLeft: '10vw', paddingTop: '10vh' }}>
-                <Card bordered={true} title={'daily quiz'} style={{ width: '60vw', height: '30vh' }} headStyle={{ backgroundColor: '#8292b3' }}>
-                    {
-                        quizs
-                            ? quizs.map((q, i) => <Card.Grid key={i} style={gridStyle} onClick={ () => redirect(i) }>
-                                <Image
-                                    src={ q.image }
-                                    alt=""
-                                    width={20}
-                                    height={20}
-                                /> {q.title}</Card.Grid>)
-                            : <Card.Grid style={gridStyle}>cargando ...</Card.Grid>
+            <div style={{ paddingLeft: '30vw', paddingTop: '10vh' }}>
+                <Card bordered={true} title={quizs[0].title} style={{ width: '20vw', minHeight: '200px' }} headStyle={{ backgroundColor: '#8292b3' }}
+                    cover={
+                        <img
+                            alt="example"
+                            src={quizs[0].image}
+                            onError={({ currentTarget }) => {
+                                currentTarget.onerror = null
+                                currentTarget.src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                              }}
+                              style={{maxWidth: '20vw'}}
+                        />
                     }
+                >
+                <Card.Grid key={0} style={gridStyle} onClick={() => redirect(0)}>
+                 Iniciar encuesta
+                 </Card.Grid>
                 </Card>
             </div>
-        </LayoutQuiz>
+        </LayoutQuiz >
     )
+    : <Redirect to = "/" />
 }
 
 export default QuizHome
