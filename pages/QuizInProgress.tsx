@@ -12,6 +12,7 @@ const gridStyle: React.CSSProperties = {
 };
 
 const QuizInProgress = () => {
+
     const router = useRouter()
     const quizStore = useStoreQuiz()
     const userStore = useStoreUser()
@@ -20,14 +21,14 @@ const QuizInProgress = () => {
     const preguntas = quizs.map(q => q.questions)
     const indice = parseInt(router.query.indice as string)
     const [ respuestas, setRespuesta ] = useState<number[]>([])
-    const [countDown, setCountDown] = useState<number>( preguntas[indice][indiceOptions].lifetimeSeconds )
+    const [countDown, setCountDown] = useState<number>( preguntas.length > 0 ? preguntas[indice][indiceOptions].lifetimeSeconds : 0 ) 
     const [ redirect, setRedirect ] = useState<boolean>(false)
     
     useEffect(() => {
         const interval = setInterval(() => {
-            if (countDown >= 0) setCountDown(countDown - 0.1);
+            if (countDown >= 0) setCountDown(countDown - 1);
             else nextQuestions(100000)
-        }, 100);
+        }, 1000);
         return () => clearInterval(interval);
     }, [countDown, setCountDown]);
 

@@ -3,11 +3,6 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useStoreUser } from '../store/store'
 import { quizContract } from '../contract/functions'
-declare global {
-  interface Window {
-    ethereum: any
-  }
-}
 
 const ConnectionButton = ({ children }: any) => {
   const [buttonText, setButtonText] = useState(children)

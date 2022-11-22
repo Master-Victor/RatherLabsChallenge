@@ -12,7 +12,6 @@ const QuizFinish = () => {
     const user = useStoreUser()
     const router = useRouter()
     const [ loading, setLoading ] = useState<boolean>(false)
-    const [ error, setError ] = useState<boolean>(false)
     const [api, contextHolder] = notification.useNotification()
 
     const openNotification = () => {
@@ -30,6 +29,7 @@ const QuizFinish = () => {
         else {
             user.setCoin(coin)
             user.resetRespuestas()
+            setLoading(false)
             router.push('/QuizHome')
         }
     }
@@ -43,7 +43,6 @@ const QuizFinish = () => {
                     await coinScanner()
                     user.resetRespuestas()
                 })
-                setLoading(false)
                 user.resetRespuestas()
             } catch (error) {
                 console.log(error)
