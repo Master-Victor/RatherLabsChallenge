@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useStoreQuiz, useStoreUser } from '../store/store'
 import { getSnapshot } from 'mobx-state-tree'
 
-const Redirect = ( { to } : any ) => {
+const Redirect = ( { to } : any = '/' ) => {
 
     const quizStore = useStoreQuiz()
     const user = useStoreUser()

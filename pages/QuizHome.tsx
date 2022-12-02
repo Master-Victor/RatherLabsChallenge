@@ -22,27 +22,29 @@ const QuizHome = () => {
     return !(quizs.length === 0) ? (
         <LayoutQuiz>
             <div style={{ paddingLeft: '30vw', paddingTop: '10vh' }}>
-                <Card bordered={true} title={quizs[0].title} style={{ width: '20vw', minHeight: '200px' }} headStyle={{ backgroundColor: '#8292b3' }}
-                    cover={
-                        <img
-                            alt="example"
-                            src={quizs[0].image}
-                            onError={({ currentTarget }) => {
-                                currentTarget.onerror = null
-                                currentTarget.src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                              }}
-                              style={{maxWidth: '20vw'}}
-                        />
-                    }
-                >
-                <Card.Grid key={0} style={gridStyle} onClick={() => redirect(0)}>
-                 Iniciar encuesta
-                 </Card.Grid>
-                </Card>
+                {quizs.map((quiz, i) =>
+                    <Card key={i} bordered={true} title={quiz.title} style={{ width: '20vw', minHeight: '200px' }} headStyle={{ backgroundColor: '#8292b3' }}
+                        cover={
+                            <img
+                                alt="example"
+                                src={quiz.image}
+                                onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null
+                                    currentTarget.src = "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                                }}
+                                style={{ maxWidth: '20vw' }}
+                            />
+                        }
+                    >
+                        <Card.Grid style={gridStyle} onClick={() => redirect(0)}>
+                            Iniciar encuesta
+                        </Card.Grid>
+                    </Card>)
+                }
             </div>
         </LayoutQuiz >
     )
-    : <Redirect to = "/" />
+        : <Redirect to="/" />
 }
 
 export default QuizHome

@@ -22,8 +22,8 @@ export const quizContract = async (wallet: string) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum)
   const signer = provider.getSigner()
   contract = new ethers.Contract(String(Address), ABI, signer)
-  const otroNumero: any = await contract.balanceOf(wallet)
-  const hexString = ethers.utils.formatEther(otroNumero)
+  const hex: any = await contract.balanceOf(wallet)
+  const hexString = ethers.utils.formatEther(hex)
   return parseInt(hexString)
 }
 

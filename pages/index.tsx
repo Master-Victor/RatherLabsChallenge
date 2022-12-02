@@ -16,7 +16,7 @@ export default function Home() {
         quizStore.setQuizs(quizs)
     }
     get()
-}, [])
+}, [quizStore])
 
   return (
     <div>
