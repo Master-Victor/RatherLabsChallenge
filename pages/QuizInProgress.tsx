@@ -26,10 +26,10 @@ const QuizInProgress = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (countDown >= 0) setCountDown(countDown - 1);
+        const interval = setTimeout(() => {
+            if (countDown >= 0) setCountDown(countDown - 0.01);
             else nextQuestions(100000)
-        }, 1000);
+        }, 10);
         return () => clearInterval(interval);
     }, [countDown, setCountDown]);
 
