@@ -14,11 +14,10 @@ const QuizFinish = () => {
     const [ loading, setLoading ] = useState<boolean>(false)
     const [api, contextHolder] = notification.useNotification()
 
-    const openNotificationError = () => {
+    const openNotificationError = ( menssage : string = 'Para poder enviar las respuestas es necesario cambiar de red.' ) => {
         api.open({
           message: 'Error de Red',
-          description:
-            'Para poder enviar las respuestas es necesario cambiar de red.',
+          description: menssage,
           icon: <FrownOutlined style={{ color: '#eb3434' }} />,
         })
       }
@@ -47,11 +46,17 @@ const QuizFinish = () => {
             try {
                 setLoading(true)
                 const hash = await submitContract(Number(router.query.indice), getSnapshot(user.respuestas))
-                openNotificationSuccess()
-                checkTransactionconfirmation(hash).then(async (r: any) => {
-                    await coinScanner()
-                    user.resetRespuestas()
-                })
+                if( hash !== undefined ){
+                    openNotificationSuccess()
+                    checkTransactionconfirmation(hash).then(async (r: any) => {
+                        await coinScanner()
+                        user.resetRespuestas()
+                    })
+                }else{
+                    openNotificationError('Es necesario confirmar la transaccion para poder enviar las respuestas')
+                    setLoading(false)                    
+                }
+ 
             } catch (error) {
                 console.log(error)
                 setLoading(false)
