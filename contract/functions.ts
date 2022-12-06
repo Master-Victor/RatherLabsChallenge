@@ -2,7 +2,7 @@ const Web3Conection = require('./ABI/web3connectionQuiz.json')
 import { ethers } from "ethers"
 
 let contract
-const Address = process.env.CONTRACT || '0x147e4F2Ff4e3618EdbfFec2B86988e583198383B'
+const Address = process.env.CONTRACT || '0x437eF217203452317C3C955Cf282b1eE5F6aaF72'
 
 export const submitContract = async (quizID: number, respuestas: number[]) => {
   const ABI = Web3Conection
